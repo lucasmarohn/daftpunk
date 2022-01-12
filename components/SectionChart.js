@@ -30,7 +30,7 @@ export const SectionChart = ({albumsItems}) => {
             <Bar 
                 options={{
                     color: 'white',
-                    font: 'Futura',
+                    font: 'futura-pt',
                     responsive: true,
                     aspectRatio: useBreakpointValue({sm: 2, md: 5}),
                 }}

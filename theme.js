@@ -20,7 +20,7 @@ export const theme = {
         },
         Heading: {
             baseStyle: {
-                fontFamily: "Futura",
+                fontFamily: "futura-pt",
                 fontWeight: 300
             },
             variants: {

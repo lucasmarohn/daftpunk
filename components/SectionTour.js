@@ -39,7 +39,7 @@ export const SectionTour = () => {
                                 borderColor: 'red.500'
                             }}
                         > 
-                        <Stack direction={['column', 'row']}>
+                        <Stack direction={['column', 'row']} spacing={[null, 4]}>
                             <Box color="red.500">{item.date.split('-').join(".")}</Box>
                             <VStack align="left" flexGrow={1}>
                                 <Text>{item.venue}</Text>
