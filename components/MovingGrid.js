@@ -20,7 +20,6 @@ export const MovingGrid = ({translateXOffset = 0, direction = 1, color = "#E53E3
     return <Box 
             ref={scrollTopRef}
             className="bg"
-            width="200vw"
             style={{
                 "--translateX": translateX + 'px',
                 "-webkit-mask-image": "-webkit-gradient(linear, left 90%, left top, color-stop(0%, rgba(0,0,0,0)), color-stop(10%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,0)) )",
