@@ -8,9 +8,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.7.4",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "axios": "^0.24.0",
+    "btoa": "^1.2.1",
+    "chart.js": "^3.6.0",
+    "framer-motion": "^5",
+    "js-base64": "^3.7.2",
     "next": "12.0.7",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-chartjs-2": "^4.0.0",
+    "react-dom": "17.0.2",
+    "react-fast-marquee": "^1.3.1",
+    "react-icons": "^4.3.1",
+    "sharp": "^0.29.3",
+    "shopify-buy": "^2.14.0"
   },
   "devDependencies": {
     "eslint": "8.6.0",
