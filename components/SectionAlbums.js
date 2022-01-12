@@ -4,10 +4,13 @@ import Image from 'next/image'
 import { Section } from './Section'
 import { FaAngleLeft, FaAngleRight, FaSpinner } from 'react-icons/fa'
 import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
+import { getMsToTime } from '../lib/getMsToTime'
+import { flushSync } from 'react-dom';
 
 // A “Music” section (not required to have working audio playback). Can display anything 
 export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
-    const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: albums.length || 4})
+    const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: albums.length || 4}) || 4
+
     const [totalAlbums, setTotalAlbums] = useState(albumsQuery.total)
     const [offset, setOffset] = useState(0)
     const [hasNextPage, setHasNextPage] = useState(albumsQuery.total > albumsQuery.offset + albums.length)
@@ -19,6 +22,9 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const [selectedAlbum, setSelectedAlbum] = useState({})
     const [albumDetails, setAlbumDetails] = useState({})
     const {isOpen, onOpen, onClose} = useDisclosure()
+
+
+
 
     const getAccessToken = async() => {
         let token = localStorage.getItem('spotifyAccessToken') || null
@@ -97,29 +103,27 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
         setTotalAlbums(data.total)
     }
 
-    useEffect(() => {
+    const updateData = async() => {
+        const token = await getAccessToken()
 
-        // Called when the displayedAlbums
-        const updateData = async() => {
-            const token = await getAccessToken()
-
-            // Check if the current offset will result in a result less than the desired numOfDisplayedAlbums value
-            // If the offset will result in less than the numOfDisplayedAlbums, we are at the end of the pages
-            // So we set it to get the last page of results
-            
-            // Using (totalAlbums - offset) so that when resizing down
-            // it will keep the first displayed items instead of the last displayed items
-            const newOffset = totalAlbums - offset >= numOfDisplayedAlbums ? offset : totalAlbums - numOfDisplayedAlbums
-            const data = await getSpotifyAlbums(token, artistId, numOfDisplayedAlbums, newOffset)
-            const items = data.items
-            
-            // Set our state
-            setAlbumsList(items)
-            setOffset(newOffset)
-            setTotalAlbums(data.total)
-        }
-        updateData()
+        // Check if the current offset will result in a result less than the desired numOfDisplayedAlbums value
+        // If the offset will result in less than the numOfDisplayedAlbums, we are at the end of the pages
+        // So we set it to get the last page of results
         
+        // Using (totalAlbums - offset) so that when resizing down
+        // it will keep the first displayed items instead of the last displayed items
+        const newOffset = totalAlbums - offset >= numOfDisplayedAlbums ? offset : totalAlbums - numOfDisplayedAlbums
+        const data = await getSpotifyAlbums(token, artistId, numOfDisplayedAlbums, newOffset)
+        const items = data.items
+        
+        // Set our state
+        setAlbumsList(items)
+        setOffset(newOffset)
+        setTotalAlbums(data.total)
+    }
+    
+    useEffect(() => {
+        updateData()
     },[numOfDisplayedAlbums])
 
     useEffect(()=>{
@@ -137,7 +141,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </VStack>
             <Grid templateColumns="44px 1fr 44px" templateRows="100%" gap={4} alignItems="center" w="100%">
             <IconButton aria-label="Load Newer Albums" disabled={!hasPrevPage} icon={<FaAngleLeft />} color="white" colorScheme="whiteAlpha" onClick={()=>getPrevPage()} />
-                <SimpleGrid columns={numOfDisplayedAlbums} gap={8} w="100%" alignItems="start"> 
+            {numOfDisplayedAlbums && <Grid templateColumns={`repeat(${numOfDisplayedAlbums}, 1fr)`} gap={8} w="100%" alignItems="start"> 
                 {albumsList?.length > 0 && albumsList.map(album => {
                     const albumImage = album?.images?.length > 0 ? album.images[0] : null
                     const albumUri = album.uri.split(":")
@@ -174,7 +178,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                         </Box>
                     )}
                 )}
-                </SimpleGrid>
+                </Grid>}
                 <IconButton aria-label="Load Older Albums" disabled={!hasNextPage} icon={<FaAngleRight />} color="white" colorScheme="whiteAlpha" 
                 onClick={()=>getNextPage()}
                 />
@@ -201,7 +205,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                         return (
                             <HStack key={details.id} justifyContent="space-between">
                                 {isLoading ? <Box textAlign="center" mx="auto" animation="spin 1s linear infinite"><FaSpinner /></Box> : <><Text size="sm">{details.name}</Text>
-                                <Text size="xs">{(Math.round(details.duration_ms * .1 / 60) / 100).toString().replace('.',':')}</Text></>}
+                                <Text size="xs">{getMsToTime(details.duration_ms)}</Text></>}
                             </HStack>
                         )
                     })}

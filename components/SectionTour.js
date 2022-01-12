@@ -15,9 +15,7 @@ export const SectionTour = () => {
 
             <SimpleGrid columns={[1, 1, 1, 2]} gap={12}>
                 <AspectRatio w="100%" ratio={1}>
-                    <Box>
-                        <Image alt="Daft Punk performing live" src="/images/live.jpg" layout="fill" objectFit="cover" />
-                    </Box>
+                    <Image alt="Daft Punk performing live" src="/images/live.jpg" layout="fill" objectFit="cover" />
                 </AspectRatio>
                 
                 <VStack w="100%" align="space-between" spacing={0}>

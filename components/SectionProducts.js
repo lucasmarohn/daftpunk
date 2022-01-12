@@ -52,7 +52,7 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
             </SimpleGrid>
 
             <VStack>
-                <Stack direction={['column', 'row']} flexWrap="wrap" colorScheme="whiteAlpha" align="center" justify="center" mx="auto">
+                <Stack direction={['column', 'row']} flexWrap="wrap" align="center" justify="center" mx="auto">
                     {initialCollections.map(collection => 
                         <Button 
                             colorScheme="whiteAlpha"
