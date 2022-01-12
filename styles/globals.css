@@ -115,6 +115,11 @@ a {
   opacity: 1;
 }
 
+.appHeight {
+  height: 100vh;
+  height: var(--app-height);
+}
+
 @media (prefers-reduced-motion) {
   .danceGlow:hover::after {
     display: none;
