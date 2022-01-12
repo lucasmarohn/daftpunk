@@ -5,6 +5,7 @@ import { Section } from './Section'
 import { MovingGrid } from "./MovingGrid"
 import { FaSpinner } from "react-icons/fa"
 
+// A “Merch” section showcasing 1-4 products (can use dummy/static data)
 // Include an option to filter the product for one of the sections (this option should use a React hook to conditionally call one of the suggested API endpoints).
 
 export const SectionProducts = ({ initialCollections, initialProducts }) => {

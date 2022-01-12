@@ -3,6 +3,8 @@ import { Box, SimpleGrid, Heading, VStack, Modal, ModalBody, AspectRatio, CloseB
 import Image from 'next/image'
 import { Section } from "./Section"
 
+// A “Video” section that displays the Top 3 Youtube videos by views
+
 export const SectionVideo = ({apiKey, channelId, videoData}) => {
     const videoMax = 3
     const [videos, setVideos] = useState(videoData.items)

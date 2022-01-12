@@ -4,6 +4,7 @@ import { Section } from './Section'
 import { tourDates } from '../data/tourDates'
 import { MovingGrid } from "./MovingGrid"
 
+//A “Tour Dates” section showcasing upcoming tour dates (can use dummy/static data)
 
 export const SectionTour = () => {
     return (

@@ -3,7 +3,7 @@ import { Box, Heading, SimpleGrid, VStack, HStack, Text } from "@chakra-ui/react
 import { Section } from './Section'
 import { getLinearTransform } from "../lib/getLinearTransform"
 
-// A “Music” section (not required to have working audio playback). Can display anything 
+// Please include one visualization/graph using any of the API’s previously mentioned
 export const SectionTopTracks = ({topTracks}) => {
 
     const getYearFromTrack = (track) => {

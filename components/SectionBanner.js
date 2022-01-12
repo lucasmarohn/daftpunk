@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 import { FaApple, FaSpotify } from 'react-icons/fa'
 
+// A promotional banner advertising a new single
 
 export const SectionBanner = ({}) => {
 

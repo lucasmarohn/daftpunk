@@ -7,7 +7,8 @@ import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
 import { getMsToTime } from '../lib/getMsToTime'
 import { flushSync } from 'react-dom';
 
-// A “Music” section (not required to have working audio playback). Can display anything 
+// A “Music” section (not required to have working audio playback). Can display anything music-related using either of the following APIs (feel free to query any UMG artist)
+// Include pagination or infinite scroll in one of the sections.
 export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: albums.length || 4}) || 4
 
