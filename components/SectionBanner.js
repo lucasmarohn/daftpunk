@@ -61,7 +61,7 @@ export const SectionBanner = ({}) => {
 
            {/* Background Image and Gradients */}
            <Box gridColumn={1} gridRow={1} w="100%" zIndex={0}>
-                <AspectRatio ratio={16 / 9} w="100%" className="appHeight" position="relative">
+                <AspectRatio ratio={[ 9/16, null, 1]} maxH="100vh" w="100%" position="relative">
                     <Box>
                         <Box bgGradient="linear-gradient(black, transparent)" w="100%" h="200px" zIndex="1" marginBottom="auto" position="absolute" inset="0" />
                         <Box bgGradient="linear-gradient(transparent, black)" w="100%" h="50vh" zIndex="1" marginTop="auto" position="absolute" inset="0" />
