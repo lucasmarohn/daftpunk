@@ -187,8 +187,8 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </Grid>
         </Section>
         {selectedAlbumId && 
-        <Modal size="lg" isOpen={isOpen} onOpen={onOpen} onClose={onClose} >
-            <ModalOverlay />
+        <Modal size="lg" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+            <ModalOverlay minH="100vh" />
            
             <ModalContent mx="20px">
                 
