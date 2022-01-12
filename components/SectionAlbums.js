@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Box, SimpleGrid, Grid, IconButton, Button, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody } from "@chakra-ui/react"
+import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
+
 // A “Music” section (not required to have working audio playback). Can display anything 
 export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const maxVideos = albums.length || 4
@@ -22,10 +23,21 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     
         const fetchAlbumTracks = async() => {
             let albumItems = []
+            let token = localStorage.getItem('spotifyAccessToken') || null
+            let expires = localStorage.getItem('spotifyAccessTokenExpires') || 0
+
             if(selectedAlbumId !== null) {
+                // If there is no token in localstorage or the token is over an hour old
+                // get a new token
+                if( !token || expires < Date.now() - 1000 * 60 * 60 ) {
+                    const tokenQuery = await fetch('/api/spotify')
+                    const tokenData = await tokenQuery.json()
+                    localStorage.setItem('spotifyAccessToken', tokenData.token)
+                    localStorage.setItem('spotifyAccessTokenExpires', Date.now())
+                }
                 const albumQuery = await fetch(`https://api.spotify.com/v1/albums/${selectedAlbumId}/tracks`, {
                     headers: {
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Bearer ${localStorage.getItem('spotifyAccessToken')}`,
                     'Content-Type': 'application/json'
                     }
                 })
@@ -135,7 +147,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </Grid>
         </Section>
         {selectedAlbumId && 
-        <Modal isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+        <Modal size="lg" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
             <ModalOverlay />
            
             <ModalContent>
@@ -145,12 +157,12 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                     </Box>
                 }
                 <VStack align="left" p={6}>
-                    <Heading size="xs">{selectedAlbum.releaseDate}</Heading>
+                    <Heading variant="headline">{selectedAlbum.releaseDate.split('-')[0]}</Heading>
                     <Heading size="lg">{selectedAlbum.name}</Heading>
                 </VStack>
 
                 <ModalBody pb={5}>
-                    <VStack align="left">
+                    <VStack align="left" divider={<Divider/>}>
                     {albumDetails && albumDetails.map(details => {
                         return (
                             <HStack key={details.id} justifyContent="space-between">
