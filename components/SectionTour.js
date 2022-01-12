@@ -11,7 +11,7 @@ export const SectionTour = () => {
         <Section bgComponent={<MovingGrid color="#2D3748" />}>
             <VStack>
                 <Heading variant="headline">Join Us</Heading>
-                <Heading>Daft Punk World Tour 2026</Heading>
+                <Heading textAlign="center">Daft Punk World Tour 2026</Heading>
             </VStack>
 
             <SimpleGrid columns={[1, 1, 1, 2]} gap={12}>

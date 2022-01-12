@@ -5,12 +5,11 @@ import { Section } from './Section'
 import { FaAngleLeft, FaAngleRight, FaSpinner } from 'react-icons/fa'
 import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
 import { getMsToTime } from '../lib/getMsToTime'
-import { flushSync } from 'react-dom';
 
 // A “Music” section (not required to have working audio playback). Can display anything music-related using either of the following APIs (feel free to query any UMG artist)
 // Include pagination or infinite scroll in one of the sections.
 export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
-    const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: albums.length || 4}) || 4
+   
 
     const [totalAlbums, setTotalAlbums] = useState(albumsQuery.total)
     const [offset, setOffset] = useState(0)
@@ -24,6 +23,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const [albumDetails, setAlbumDetails] = useState({})
     const {isOpen, onOpen, onClose} = useDisclosure()
 
+    const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: 4})
 
 
 
@@ -122,7 +122,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
         setOffset(newOffset)
         setTotalAlbums(data.total)
     }
-    
+
     useEffect(() => {
         updateData()
     },[numOfDisplayedAlbums])
@@ -142,7 +142,8 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </VStack>
             <Grid templateColumns="44px 1fr 44px" templateRows="100%" gap={4} alignItems="center" w="100%">
             <IconButton aria-label="Load Newer Albums" disabled={!hasPrevPage} icon={<FaAngleLeft />} color="white" colorScheme="whiteAlpha" onClick={()=>getPrevPage()} />
-            {numOfDisplayedAlbums && <Grid templateColumns={`repeat(${numOfDisplayedAlbums}, 1fr)`} gap={8} w="100%" alignItems="start"> 
+            {numOfDisplayedAlbums && albumsList &&
+            <Grid templateColumns={`repeat(${numOfDisplayedAlbums}, 1fr)`} gap={8} w="100%" alignItems="start"> 
                 {albumsList?.length > 0 && albumsList.map(album => {
                     const albumImage = album?.images?.length > 0 ? album.images[0] : null
                     const albumUri = album.uri.split(":")
