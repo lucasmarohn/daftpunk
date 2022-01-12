@@ -114,12 +114,7 @@ a {
   transform: scaleX(.9) scaleY(.5) translateY(35px);
   opacity: 1;
 }
-@media screen and (max-width: 500px) {
-  .danceGlow::after {
-    transform: scaleX(.9) scaleY(.5) translateY(35px);
-    opacity: 1;
-  }
-}
+
 @media (prefers-reduced-motion) {
   .danceGlow:hover::after {
     display: none;

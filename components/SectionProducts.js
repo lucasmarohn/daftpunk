@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, SimpleGrid, Heading, Stack, VStack, HStack, Text, ButtonGroup, Button, AspectRatio } from "@chakra-ui/react"
+import { Box, SimpleGrid, Heading, Stack, VStack, HStack, Text, Button, AspectRatio } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { MovingGrid } from "./MovingGrid"
@@ -25,8 +25,8 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
     return (
         <Section bgComponent={<MovingGrid direction={-1} color="#2D3748"/>}>
             <VStack>
-                <Heading variant="headline">Represent Daft Punk</Heading>
-                <Heading>Official Daft Punk Dog Collars</Heading>
+                <Heading variant="headline" textAlign="center">Represent Daft Punk</Heading>
+                <Heading textAlign="center">Official Daft Punk Dog Collars</Heading>
             </VStack>
 
             <SimpleGrid columns={[2, 2, 4]} gap={8}>
@@ -43,17 +43,17 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
                                     </AspectRatio>
                                 </Box>
                             }
-                            <HStack align="start" w="100%" justifyContent="space-between">
+                            <Stack direction={['column', 'row']}align="start" w="100%" justifyContent="space-between">
                             <Text size="sm">{isLoading ? "Loading Product" : product.title}</Text>
                             {isLoading ? null : <Text color="gray.400">$30</Text>}
-                            </HStack>
+                            </Stack>
                         </VStack>
                     )
                 })}
             </SimpleGrid>
 
             <VStack>
-                <Stack direction={['column', 'row']} flexWrap="wrap" align="center" justify="center" mx="auto">
+                <Stack direction={['column', 'column', 'row']} flexWrap="wrap" align="center" justify="center" mx="auto">
                     {initialCollections.map(collection => 
                         <Button 
                             colorScheme="whiteAlpha"

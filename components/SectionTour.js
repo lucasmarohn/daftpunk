@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, VStack, SimpleGrid, Text, AspectRatio, Button } from "@chakra-ui/react"
+import { Box, Heading, Stack, HStack, VStack, SimpleGrid, Text, AspectRatio, Button } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { tourDates } from '../data/tourDates'
@@ -20,10 +20,13 @@ export const SectionTour = () => {
                 </AspectRatio>
                 
                 <VStack w="100%" align="space-between" spacing={0}>
-                    <Heading mb={6} size="md">Tour Dates</Heading>
+                    <Heading mb={6} size="md" pl={4}>Tour Dates</Heading>
                     {tourDates.map(item => {
                         return (
-                        <HStack 
+                        
+                        <Stack 
+                            direction={['row']}
+                            justifyContent="space-between"
                             key={item.id} 
                             color="white" 
                             align="start" 
@@ -36,15 +39,18 @@ export const SectionTour = () => {
                                 borderColor: 'red.500'
                             }}
                         > 
+                        <Stack direction={['column', 'row']}>
                             <Box color="red.500">{item.date.split('-').join(".")}</Box>
                             <VStack align="left" flexGrow={1}>
                                 <Text>{item.venue}</Text>
                                 <Text color="whiteAlpha.700">{item.location}</Text>
                             </VStack>
-                            <Button 
-                                aria-label={`RSVP to ${item.location} show on ${item.date}`} 
-                                colorScheme="whiteAlpha" alignSelf="center">RSVP</Button>
-                        </HStack>)
+                            </Stack>
+                        <Button flexShrink={0}
+                            aria-label={`RSVP to ${item.location} show on ${item.date}`} 
+                            colorScheme="whiteAlpha" alignSelf="center">RSVP</Button>
+                            
+                        </Stack>)
                     })}
                 </VStack>
             </SimpleGrid>

@@ -66,8 +66,8 @@ export const SectionVideo = ({apiKey, channelId, videoData}) => {
                                     <Image alt="" src={video.snippet.thumbnails.high.url} layout="fill" objectFit="cover" />
                                 </AspectRatio>
                             </Box>
-                            <Heading variant="headline">{video.snippet.publishTime}</Heading>
-                            <Heading size="md">{video.snippet.title}</Heading>
+                            <Heading variant="headline">{video.snippet.publishTime.split('-')[0]}</Heading>
+                            <Heading size="md" lineHeight="lg">{video.snippet.title}</Heading>
                         </VStack>
                     </Box>
                     )}

@@ -11,7 +11,7 @@ export const SectionBanner = ({}) => {
     // Place all items in a 1x1 grid so they overlap
 
     return (
-        <SimpleGrid alignItems="end" justifyItems="center" maxW="100vw">
+        <SimpleGrid alignItems="end" justifyItems="center" maxW="100%">
             {/* Scrolling Banner */}
             <Box w="100%" gridColumn={1} gridRow={1} zIndex={1} alignSelf="start" style={{animation: "fadeIn .5s ease-out backwards", animationDelay: ".5s"}}>
                 <SimpleGrid columns={1} rows={1} alignItems="center" justifyItems="center">
