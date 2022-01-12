@@ -12,9 +12,6 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
       appHeight()
       window.addEventListener('resize', appHeight)
-      return ()=> {
-          window.removeEventListener('resize', appHeight)
-      }
   })
 
   return <ChakraProvider theme={extendTheme(theme)}>
