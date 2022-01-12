@@ -1,20 +1,24 @@
 import { useState } from "react"
-import { Box, SimpleGrid, Heading, VStack, HStack, Text, ButtonGroup, Button } from "@chakra-ui/react"
+import { Box, SimpleGrid, Heading, VStack, HStack, Text, ButtonGroup, Button, AspectRatio } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { MovingGrid } from "./MovingGrid"
+import { FaSpinner } from "react-icons/fa"
 
 // Include an option to filter the product for one of the sections (this option should use a React hook to conditionally call one of the suggested API endpoints).
 
 export const SectionProducts = ({ initialCollections, initialProducts }) => {
     const [products, setProducts] = useState(initialProducts)
     const [activeCollectionId, setActiveCollectionId] = useState(initialCollections[0]?.id)
+    const [isLoading, setIsLoading] = useState(false)
 
     const loadCollectionProductsById = async(collectionId) => {
+        setIsLoading(true)
         setActiveCollectionId(collectionId)
         const collectionData = await fetch('/api/shopify?id=' + collectionId)
         const products = await collectionData.json()
         setProducts(products)
+        setIsLoading(false)
     }
 
     return (
@@ -30,17 +34,17 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
                         <VStack key={product.id} align="left">
                             {product.images.length > 0 && 
                                 <Box bg="gray.800">
-                                    <Image 
+                                        <AspectRatio ratio={1} bg="gray.100">
+                                        {isLoading ? <Box animation="spin 1s linear infinite" color="gray.500"><FaSpinner fontSize={48} /></Box> : <Image 
                                         alt="" 
-                                        src={product.images[0].src} 
-                                        width={product.images[0].width} 
-                                        height={product.images[0].height} 
-                                        layout="responsive" />
+                                        src={product.images[0].src}
+                                        layout="fill" />}
+                                        </AspectRatio>
                                 </Box>
                             }
                             <HStack align="start" w="100%" justifyContent="space-between">
-                            <Text size="sm">{product.title}</Text>
-                            <Text color="gray.400">$30</Text>
+                            <Text size="sm">{isLoading ? "Loading Product" : product.title}</Text>
+                            {isLoading ? null : <Text color="gray.400">$30</Text>}
                             </HStack>
                         </VStack>
                     )
