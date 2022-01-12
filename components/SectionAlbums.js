@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import { FaAngleLeft, FaAngleRight, FaSpinner } from 'react-icons/fa'
 import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
 
 // A “Music” section (not required to have working audio playback). Can display anything 
@@ -12,6 +12,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const [offset, setOffset] = useState(0)
     const [hasNextPage, setHasNextPage] = useState(albumsQuery.total > albumsQuery.offset + albums.length)
     const [hasPrevPage, setHasPrevPage] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const [albumsList, setAlbumsList] = useState(albums)
     const [selectedAlbumId, setSelectedAlbumId] = useState(null)
@@ -27,6 +28,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             let expires = localStorage.getItem('spotifyAccessTokenExpires') || 0
 
             if(selectedAlbumId !== null) {
+                setIsLoading(true)
                 // If there is no token in localstorage or the token is over an hour old
                 // get a new token
                 if( !token || expires < Date.now() - 1000 * 60 * 60 ) {
@@ -43,6 +45,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                 })
                 const albumData = await albumQuery.json()
                 albumItems = albumData.items
+                setIsLoading(false)
             }
             setAlbumDetails(albumItems)
         }
@@ -166,8 +169,8 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                     {albumDetails && albumDetails.map(details => {
                         return (
                             <HStack key={details.id} justifyContent="space-between">
-                                <Text size="sm">{details.name}</Text>
-                                <Text size="xs">{(Math.round(details.duration_ms * .1 / 60) / 100).toString().replace('.',':')}</Text>
+                                {isLoading ? <Box textAlign="center" mx="auto" animation="spin 1s linear infinite"><FaSpinner /></Box> : <><Text size="sm">{details.name}</Text>
+                                <Text size="xs">{(Math.round(details.duration_ms * .1 / 60) / 100).toString().replace('.',':')}</Text></>}
                             </HStack>
                         )
                     })}
