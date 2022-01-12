@@ -34,12 +34,12 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
                         <VStack key={product.id} align="left">
                             {product.images.length > 0 && 
                                 <Box bg="gray.800">
-                                        <AspectRatio ratio={1} bg="gray.100">
+                                    <AspectRatio ratio={1} bg="gray.100">
                                         {isLoading ? <Box animation="spin 1s linear infinite" color="gray.500"><FaSpinner fontSize={48} /></Box> : <Image 
                                         alt="" 
                                         src={product.images[0].src}
                                         layout="fill" />}
-                                        </AspectRatio>
+                                    </AspectRatio>
                                 </Box>
                             }
                             <HStack align="start" w="100%" justifyContent="space-between">
