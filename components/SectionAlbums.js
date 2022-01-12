@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody, useBreakpointValue } from "@chakra-ui/react"
+import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalCloseButton, ModalContent, ModalOverlay, ModalBody, useBreakpointValue } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { FaAngleLeft, FaAngleRight, FaSpinner } from 'react-icons/fa'
@@ -187,12 +187,14 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </Grid>
         </Section>
         {selectedAlbumId && 
-        <Modal size="lg" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+        <Modal size="lg" isOpen={isOpen} onOpen={onOpen} onClose={onClose} >
             <ModalOverlay />
            
-            <ModalContent>
+            <ModalContent mx="20px">
+                
                 {selectedAlbum.image && 
                     <Box>
+                        
                         <Image alt="" src={selectedAlbum.image.url} width={selectedAlbum.image.width} height={selectedAlbum.image.height} layout="responsive" />
                     </Box>
                 }
@@ -202,6 +204,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
                 </VStack>
 
                 <ModalBody pb={5}>
+                    <ModalCloseButton onClick={()=> onClose()} colorScheme="whiteAlpha" bg="gray.900" color="white" />
                     <VStack align="left" divider={<Divider/>}>
                     {albumDetails && albumDetails.map(details => {
                         return (
