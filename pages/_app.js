@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
 
   const appHeight = () => {
       const el = document.documentElement
-      el.style.setProperty('--app-height', `${window.innerHeight}px`)
+      el.style.setProperty('--vh', `${window.innerHeight / 100}px`)
   }
   useEffect(() => {
       appHeight()

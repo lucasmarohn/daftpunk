@@ -117,7 +117,7 @@ a {
 
 .appHeight {
   height: 100vh;
-  height: var(--app-height);
+  height: calc( 100 * var(--vh) );
 }
 
 @media (prefers-reduced-motion) {
