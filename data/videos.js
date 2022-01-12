@@ -1,7 +1,7 @@
 export const staticVideoData = [
     {
         id: {
-            videoId: 1
+            videoId: 'FGBhQbmPwH8'
         },
         snippet: {
             publishTime: '2014',
@@ -15,7 +15,7 @@ export const staticVideoData = [
     },
     {
         id: {
-            videoId: 2
+            videoId: 'sOS9aOIXPEk'
         },
         snippet: {
             publishTime: '2014',
@@ -29,7 +29,7 @@ export const staticVideoData = [
     },
     {
         id: {
-            videoId: 3
+            videoId: 'HhZaHf8RP6g'
         },
         snippet: {
             publishTime: '2014',
