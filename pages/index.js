@@ -31,10 +31,11 @@ export default function Home({
   topTracks
 }) {
   return (
-    <Box bg="black" color="gray.100" fontFamily="Futura">
+    <Box bg="black" color="gray.100" fontFamily="Futura" w="100%">
       <Head>
         <title>New Single — Revolution — Daft Punk</title>
-        <meta name="description" content="Official Daft Punk Website and Merch Store"></meta> 
+        <meta name="description" content="Official Daft Punk Website and Merch Store" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       <SectionBanner />

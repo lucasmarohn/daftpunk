@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody } from "@chakra-ui/react"
+import { Box, SimpleGrid, Grid, IconButton, Divider, Heading, VStack, HStack, Text, useDisclosure, Modal, ModalContent, ModalOverlay, ModalBody, useBreakpointValue } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { FaAngleLeft, FaAngleRight, FaSpinner } from 'react-icons/fa'
@@ -7,7 +7,7 @@ import { getSpotifyAlbums } from '../lib/getSpotifyAlbums'
 
 // A “Music” section (not required to have working audio playback). Can display anything 
 export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
-    const maxVideos = albums.length || 4
+    const numOfDisplayedAlbums = useBreakpointValue({base: 1, sm: 2, md: albums.length || 4})
     const [totalAlbums, setTotalAlbums] = useState(albumsQuery.total)
     const [offset, setOffset] = useState(0)
     const [hasNextPage, setHasNextPage] = useState(albumsQuery.total > albumsQuery.offset + albums.length)
@@ -19,27 +19,33 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     const [selectedAlbum, setSelectedAlbum] = useState({})
     const [albumDetails, setAlbumDetails] = useState({})
     const {isOpen, onOpen, onClose} = useDisclosure()
-    
+
+    const getAccessToken = async() => {
+        let token = localStorage.getItem('spotifyAccessToken') || null
+        let expires = localStorage.getItem('spotifyAccessTokenExpires') || 0
+        if( !token || expires < Date.now() - 1000 * 60 * 60 ) {
+            const tokenQuery = await fetch('/api/spotify')
+            const tokenData = await tokenQuery.json()
+            token = tokenData.token
+            localStorage.setItem('spotifyAccessToken', tokenData.token)
+            localStorage.setItem('spotifyAccessTokenExpires', Date.now())
+        }
+        return token
+    }
+
     useEffect(() => {
-    
         const fetchAlbumTracks = async() => {
             let albumItems = []
-            let token = localStorage.getItem('spotifyAccessToken') || null
-            let expires = localStorage.getItem('spotifyAccessTokenExpires') || 0
+            
 
             if(selectedAlbumId !== null) {
                 setIsLoading(true)
                 // If there is no token in localstorage or the token is over an hour old
                 // get a new token
-                if( !token || expires < Date.now() - 1000 * 60 * 60 ) {
-                    const tokenQuery = await fetch('/api/spotify')
-                    const tokenData = await tokenQuery.json()
-                    localStorage.setItem('spotifyAccessToken', tokenData.token)
-                    localStorage.setItem('spotifyAccessTokenExpires', Date.now())
-                }
+                
                 const albumQuery = await fetch(`https://api.spotify.com/v1/albums/${selectedAlbumId}/tracks`, {
                     headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('spotifyAccessToken')}`,
+                    'Authorization': `Bearer ${await getAccessToken()}`,
                     'Content-Type': 'application/json'
                     }
                 })
@@ -51,18 +57,19 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
         }
         fetchAlbumTracks()
         
-    }, [selectedAlbumId, accessToken])
+    }, [selectedAlbumId, accessToken, numOfDisplayedAlbums])
 
     const getNextPage = async() => {
         let newItems = [...albumsList]
-        const newOffset = offset += maxVideos
-        const data = await getSpotifyAlbums(accessToken, artistId, maxVideos, newOffset)
+        const token = await getAccessToken()
+        const newOffset = offset += numOfDisplayedAlbums
+        const data = await getSpotifyAlbums(token, artistId, numOfDisplayedAlbums, newOffset)
         
         // If there are less than 4 albums returned e.g. on the last page
         // We'll keep some of the previous items in the array
         // So that there are always 4 items
-        if(data.items.length < maxVideos) {
-            const numberOfItemsToShift = maxVideos + data.items.length - maxVideos
+        if(data.items.length < numOfDisplayedAlbums) {
+            const numberOfItemsToShift = numOfDisplayedAlbums + data.items.length - numOfDisplayedAlbums
             for(let i = 0; i < numberOfItemsToShift; i++) {
                 newItems.shift()
                 newItems.push(data.items[i])
@@ -78,23 +85,47 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
     }
 
     const getPrevPage = async() => {
-        let items = [...albumsList]
+        const token = await getAccessToken()
 
         // Make sure we don't use a negative offset
-        const newOffset = offset - maxVideos > 0 ? offset - maxVideos : 0
-        const data = await getSpotifyAlbums(accessToken, artistId, maxVideos, newOffset)
-        items = data.items
+        const newOffset = offset - numOfDisplayedAlbums > 0 ? offset - numOfDisplayedAlbums : 0
+        const data = await getSpotifyAlbums(token, artistId, numOfDisplayedAlbums, newOffset)
         
         // Set our state
-        setAlbumsList(items)
+        setAlbumsList(data.items)
         setOffset(newOffset)
         setTotalAlbums(data.total)
     }
 
+    useEffect(() => {
+
+        // Called when the displayedAlbums
+        const updateData = async() => {
+            const token = await getAccessToken()
+
+            // Check if the current offset will result in a result less than the desired numOfDisplayedAlbums value
+            // If the offset will result in less than the numOfDisplayedAlbums, we are at the end of the pages
+            // So we set it to get the last page of results
+            
+            // Using (totalAlbums - offset) so that when resizing down
+            // it will keep the first displayed items instead of the last displayed items
+            const newOffset = totalAlbums - offset >= numOfDisplayedAlbums ? offset : totalAlbums - numOfDisplayedAlbums
+            const data = await getSpotifyAlbums(token, artistId, numOfDisplayedAlbums, newOffset)
+            const items = data.items
+            
+            // Set our state
+            setAlbumsList(items)
+            setOffset(newOffset)
+            setTotalAlbums(data.total)
+        }
+        updateData()
+        
+    },[numOfDisplayedAlbums])
+
     useEffect(()=>{
         setHasPrevPage(offset !== 0)
         setHasNextPage(albumsList.length + offset < totalAlbums)
-    }, [offset, albumsList, totalAlbums])
+    }, [offset, albumsList, totalAlbums, numOfDisplayedAlbums])
 
     if(!albums?.length > 0) return null
     return(
@@ -106,7 +137,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
             </VStack>
             <Grid templateColumns="44px 1fr 44px" templateRows="100%" gap={4} alignItems="center" w="100%">
             <IconButton aria-label="Load Newer Albums" disabled={!hasPrevPage} icon={<FaAngleLeft />} color="white" colorScheme="whiteAlpha" onClick={()=>getPrevPage()} />
-                <SimpleGrid columns={[2,2, 4]} gap={8} w="100%" alignItems="start"> 
+                <SimpleGrid columns={numOfDisplayedAlbums} gap={8} w="100%" alignItems="start"> 
                 {albumsList?.length > 0 && albumsList.map(album => {
                     const albumImage = album?.images?.length > 0 ? album.images[0] : null
                     const albumUri = album.uri.split(":")

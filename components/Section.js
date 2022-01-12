@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export const Section = ({children, bgComponent, bgImage, maxW, ...props}) => {
     return (
-        <SimpleGrid columns={1} row={1} pos="relative" {...props}>
+        <SimpleGrid columns={1} row={1} pos="relative" {...props} maxW="100%" overflow="hidden">
             <Box py={[50, 100, 150]} w="100%" gridColumn={1} gridRow={1} zIndex={1}>
                 <Container maxW={maxW ? maxW : "container.xl"}>
                     <VStack w="100%" align="left" spacing={12}>

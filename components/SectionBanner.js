@@ -10,9 +10,9 @@ export const SectionBanner = ({}) => {
     // Place all items in a 1x1 grid so they overlap
 
     return (
-        <SimpleGrid alignItems="end" justifyItems="center">
+        <SimpleGrid alignItems="end" justifyItems="center" maxW="100vw">
             {/* Scrolling Banner */}
-            <Box gridColumn={1} gridRow={1} zIndex={1} alignSelf="start" style={{animation: "fadeIn .5s ease-out backwards", animationDelay: ".5s"}}>
+            <Box w="100%" gridColumn={1} gridRow={1} zIndex={1} alignSelf="start" style={{animation: "fadeIn .5s ease-out backwards", animationDelay: ".5s"}}>
                 <SimpleGrid columns={1} rows={1} alignItems="center" justifyItems="center">
                     <Box gridColumn={1} gridRow={1} zIndex={1} w="100%" maxW="500px" textAlign="center" filter="drop-shadow(0 0 30px #000000)" bgGradient="radial(farthest-side, rgba(0,0,0,1), rgba(0,0,0,.1), transparent)">
                         <Image src="/images/logo.png" alt="Daft Punk" width={200} height={131} objectFit="contain" priority />
@@ -37,21 +37,21 @@ export const SectionBanner = ({}) => {
             {/* Banner Content */}
             <Box gridColumn={1} gridRow={1} zIndex={1}>
                 <Container maxW="container.lg" style={{animation: "fadeIn .5s ease-out backwards", animationDelay: "1.5s"}}>
-                    <VStack color="white" spacing={0} pb={"5vh"}>
+                    <VStack color="white" spacing={0} pb={"7.5vh"}>
                         <Box size="md" textTransform="uppercase" letterSpacing=".4rem" overflow="hidden">
                             <Text style={{ animation: "fadeUpIn 1s ease-out backwards", animationDelay: "1.5s" }}>New Single. Out Now</Text>
                         </Box>
 
                         <Box overflow="hidden">
                             <Box style={{animation: "fadeUpIn .75s ease-out backwards", animationDelay: "2.25s" }}>
-                                <Image src="/images/revolution.png" width={820} height={230} objectFit="contain" layout="intrinsic" alt=""  />
+                                <Image src="/images/revolution.png" width={820} height={230} objectFit="contain" alt=""  />
                             </Box>
                         </Box>
                         
                         <Box style={{ animation: 'fadeIn 1s ease-out backwards 3s' }}>
                             <HStack spacing={4}>
-                                <Button leftIcon={<FaSpotify />} size="lg" variant="party" className="danceGlow">Spotify</Button>
-                                <Button leftIcon={<FaApple />} size="lg" variant="party" className="danceGlow">Apple Music</Button>
+                                <Button leftIcon={<FaSpotify />} variant="party" className="danceGlow">Spotify</Button>
+                                <Button leftIcon={<FaApple />}  variant="party" className="danceGlow">Apple Music</Button>
                             </HStack>
                         </Box>
                     </VStack>

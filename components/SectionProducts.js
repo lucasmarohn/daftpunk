@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, SimpleGrid, Heading, VStack, HStack, Text, ButtonGroup, Button, AspectRatio } from "@chakra-ui/react"
+import { Box, SimpleGrid, Heading, Stack, VStack, HStack, Text, ButtonGroup, Button, AspectRatio } from "@chakra-ui/react"
 import Image from 'next/image'
 import { Section } from './Section'
 import { MovingGrid } from "./MovingGrid"
@@ -52,14 +52,15 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
             </SimpleGrid>
 
             <VStack>
-                <ButtonGroup colorScheme="whiteAlpha" align="center" justify="center" mx="auto">
+                <Stack direction={['column', 'row']} flexWrap="wrap" colorScheme="whiteAlpha" align="center" justify="center" mx="auto">
                     {initialCollections.map(collection => 
                         <Button 
+                            colorScheme="whiteAlpha"
                             aria-label={`View ${collection.title}`} key={collection.id} 
                             disabled={collection.id === activeCollectionId} 
                             onClick={() => loadCollectionProductsById(collection.id)}>{collection.title}</Button>
                     )}
-                </ButtonGroup>
+                </Stack>
             </VStack>
     </Section>
     )
