@@ -1,19 +1,20 @@
 import { ChakraProvider, extendTheme, Box } from '@chakra-ui/react'
 import "../styles/globals.css"
-import { useEffect, useState, useRef } from 'react'
+import { useEffect} from 'react'
 import { theme } from '../theme.js'
 
 function MyApp({ Component, pageProps }) {
-  const [scrollPosition, setScrollPosition] = useState(0)
-  const scrollTopRef = useRef()
 
-  const handleScroll = () => {
-      const position = document.body.scrollTop || document.documentElement.scrollTop
-      setScrollPosition(position)
+  const appHeight = () => {
+      const el = document.documentElement
+      el.style.setProperty('--app-height', `${window.innerHeight}px`)
   }
   useEffect(() => {
-      window.addEventListener('scroll', handleScroll, {passive: true})
-      return ()=> window.removeEventListener('scroll', handleScroll)
+      appHeight()
+      window.addEventListener('resize', appHeight)
+      return ()=> {
+          window.removeEventListener('resize', appHeight)
+      }
   })
 
   return <ChakraProvider theme={extendTheme(theme)}>
