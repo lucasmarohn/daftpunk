@@ -16,7 +16,7 @@ export const SectionVideo = ({apiKey, channelId, videoData}) => {
         <Section bgGradient="linear(to top, gray.900, transparent)">
             <VStack>
                 <Heading variant="headline">Watch Along</Heading>
-                <Heading>Fan Favorite Videos</Heading>
+                <Heading as="h2">Fan Favorite Videos</Heading>
             </VStack>
 
             {videos?.length > 0 && <SimpleGrid columns={[1, 2]} gap={8} alignItems="start"> 

@@ -26,7 +26,7 @@ export const SectionProducts = ({ initialCollections, initialProducts }) => {
         <Section bgComponent={<MovingGrid direction={-1} color="#2D3748"/>}>
             <VStack>
                 <Heading variant="headline" textAlign="center">Represent Daft Punk</Heading>
-                <Heading textAlign="center">Official Daft Punk Dog Collars</Heading>
+                <Heading textAlign="center" as="h2">Official Daft Punk Dog Collars</Heading>
             </VStack>
 
             <SimpleGrid columns={[2, 2, 4]} gap={8}>

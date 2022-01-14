@@ -137,7 +137,7 @@ export const SectionAlbums = ({albums, albumsQuery, accessToken, artistId}) => {
         <>
         <Section>
             <VStack>
-                <Heading variant="headline">Discography</Heading>
+                <Heading variant="headline" as="h2">Discography</Heading>
                 <Heading>A Look Back in Time</Heading>
             </VStack>
             <Grid templateColumns="44px 1fr 44px" templateRows="100%" gap={4} alignItems="center" w="100%">

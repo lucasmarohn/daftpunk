@@ -31,7 +31,7 @@ export const SectionTopTracks = ({topTracks}) => {
     return(
         <Section py={[0]} bgGradient="linear-gradient(to bottom, gray.900, transparent)">
             <VStack>
-                <Heading variant="headline">Top Tracks in the U.S.</Heading>
+                <Heading variant="headline" as="h2">Top Tracks in the U.S.</Heading>
                 <Heading>The People Have Listened</Heading>
             </VStack>
             <VStack color="white" className="hello" w="100%" align="left" spacing={1}>
