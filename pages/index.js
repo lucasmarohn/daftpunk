@@ -2,7 +2,6 @@ import { Box } from "@chakra-ui/react"
 
 import { SectionVideo } from "../components/SectionVideo"
 import { SectionAlbums } from '../components/SectionAlbums'
-import { SectionProducts } from '../components/SectionProducts'
 import { SectionBanner } from '../components/SectionBanner'
 import { SectionTour } from '../components/SectionTour'
 import { SectionTopTracks } from '../components/SectionTopTracks'
@@ -44,7 +43,6 @@ export default function Home({
       <SectionTopTracks topTracks={topTracks} />
       <SectionTour />
       <SectionVideo videoData={videoData} apiKey={YOUTUBE_API_KEY} channelId={YOUTUBE_CHANNEL_ID} />
-      {/* <SectionProducts initialCollections={initialCollections} initialProducts={initialProducts} /> */}
       <Footer />
     </Box>
   )
