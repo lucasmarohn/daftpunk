@@ -25,8 +25,6 @@ export default function Home({
   albumData, 
   albumsQuery, 
   videoData, 
-  initialCollections, 
-  initialProducts, 
   topTracks
 }) {
   return (
@@ -63,12 +61,12 @@ export async function getStaticProps(context) {
   const videoData = await getYoutubeVideos(YOUTUBE_CHANNEL_ID, 3)
   
   // Get 2 Shopify Collections
-  const shopifyCollections = await getShopifyCollections()
-  const collectionData = JSON.parse(JSON.stringify( shopifyCollections.slice(0, 2) ))
+  // const shopifyCollections = await getShopifyCollections()
+  // const collectionData = JSON.parse(JSON.stringify( shopifyCollections.slice(0, 2) ))
   
   // Get Products for First Shopify Collection
-  const shopifyProducts =  await getShopifyProducts(shopifyCollections[0].id, 4)
-  const productData = JSON.parse(JSON.stringify( shopifyProducts.products ))
+  // const shopifyProducts =  await getShopifyProducts(shopifyCollections[0].id, 4)
+  // const productData = JSON.parse(JSON.stringify( shopifyProducts.products ))
 
   return {
     props: {
@@ -78,9 +76,7 @@ export async function getStaticProps(context) {
       albumsItems,
       albumData,
       videoData,
-      topTracks,
-      initialCollections: collectionData,
-      initialProducts: productData
+      topTracks
     }
   }
 }
