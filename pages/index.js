@@ -44,7 +44,7 @@ export default function Home({
       <SectionTopTracks topTracks={topTracks} />
       <SectionTour />
       <SectionVideo videoData={videoData} apiKey={YOUTUBE_API_KEY} channelId={YOUTUBE_CHANNEL_ID} />
-      <SectionProducts initialCollections={initialCollections} initialProducts={initialProducts} />
+      {/* <SectionProducts initialCollections={initialCollections} initialProducts={initialProducts} /> */}
       <Footer />
     </Box>
   )
